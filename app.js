@@ -9,7 +9,7 @@ const express = require("express");
  app.get("/", (req, res) => {
   //res.send(`Hello World!`);
   https
-  .get("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY", resp => {
+  .get("https://2biz8ozb25.execute-api.ap-northeast-1.amazonaws.com/dev/notification", resp => {
               let data = "";
 
               resp.on("data", chunk => {
@@ -18,7 +18,7 @@ const express = require("express");
 
               resp.on("end", () => {
                             let url = JSON.parse(data).hdurl;
-                            res.send("From backend----" + url);
+                            res.send("From frontend----" + data);
 
                           });
             })
