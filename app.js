@@ -17,7 +17,7 @@ const express = require("express");
                           });
 
               resp.on("end", () => {
-                            let url = JSON.parse(data).hdurl;
+                            //let url = JSON.parse(data).hdurl;
                             res.send("From frontend----" + data);
 
                           });
