@@ -18,7 +18,7 @@ const express = require("express");
 
               resp.on("end", () => {
                             let url = JSON.parse(data).hdurl;
-                            console.log(url);
+                            res.send(url);
 
                           });
             })
