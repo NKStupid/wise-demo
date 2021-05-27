@@ -6,7 +6,7 @@ const fs = require("fs");
 const express = require("express");
  const app = express();
 //
- app.get("/", (req, res) => {
+ app.get("/frontend", (req, res) => {
   //res.send(`Hello World!`);
   https
   .get("https://2biz8ozb25.execute-api.ap-northeast-1.amazonaws.com/dev/notification", resp => {
@@ -26,7 +26,9 @@ const express = require("express");
               console.log("Error: " + err.message);
             });
   });
-//
+ app.get("/", (req, res) => {
+  res.send("OK!");
+ });
  app.listen(80, () => {
    console.log(`Example app listening on port 80!`);
 
