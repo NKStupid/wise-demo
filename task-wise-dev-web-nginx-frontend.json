@@ -127,7 +127,7 @@
     "EC2",
     "FARGATE"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-1:727922501631:task-definition/task-wise-dev-web-nginx-frontend:5",
+  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-1:727922501631:task-definition/task-wise-dev-web-nginx-frontend:6",
   "family": "task-wise-dev-web-nginx-frontend",
   "requiresAttributes": [
     {
