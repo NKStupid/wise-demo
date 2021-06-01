@@ -1,0 +1,197 @@
+{
+  "ipcMode": null,
+  "executionRoleArn": "arn:aws:iam::727922501631:role/iam-rol-ecs-wise-dev",
+  "containerDefinitions": [
+    {
+      "dnsSearchDomains": null,
+      "environmentFiles": null,
+      "logConfiguration": null,
+      "entryPoint": null,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "protocol": "tcp",
+          "containerPort": 80
+        }
+      ],
+      "command": [],
+      "linuxParameters": null,
+      "cpu": 1024,
+      "environment": [
+        {
+          "name": "env_wise",
+          "value": "parameter-wise-dev-env"
+        },
+        {
+          "name": "username",
+          "value": "admin"
+        }
+      ],
+      "resourceRequirements": null,
+      "ulimits": null,
+      "dnsServers": null,
+      "mountPoints": [
+        {
+          "readOnly": null,
+          "containerPath": "/var/log/nginx",
+          "sourceVolume": "task-wise-dev-web-vlm"
+        }
+      ],
+      "workingDirectory": null,
+      "secrets": [
+        {
+          "valueFrom": "arn:aws:secretsmanager:ap-northeast-1:727922501631:secret:scm-wise-dev-master-wisedbuser-NmtMAf:dbname::",
+          "name": "dbname"
+        }
+      ],
+      "dockerSecurityOptions": null,
+      "memory": null,
+      "memoryReservation": 1024,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "727922501631.dkr.ecr.ap-northeast-1.amazonaws.com/ecr-wise-dev-web-ngx:v4",
+      "startTimeout": null,
+      "firelensConfiguration": null,
+      "dependsOn": null,
+      "disableNetworking": null,
+      "interactive": null,
+      "healthCheck": null,
+      "essential": true,
+      "links": null,
+      "hostname": null,
+      "extraHosts": null,
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": null,
+      "dockerLabels": null,
+      "systemControls": null,
+      "privileged": null,
+      "name": "container-wise-dev-web-frontend-ngx"
+    },
+    {
+      "dnsSearchDomains": null,
+      "environmentFiles": null,
+      "logConfiguration": null,
+      "entryPoint": null,
+      "portMappings": [],
+      "command": null,
+      "linuxParameters": null,
+      "cpu": 256,
+      "environment": [
+        {
+          "name": "LOG_WEB_NGINX",
+          "value": "log-wise-dev-ecs-web-nginx-fre"
+        }
+      ],
+      "resourceRequirements": null,
+      "ulimits": null,
+      "dnsServers": null,
+      "mountPoints": [
+        {
+          "readOnly": null,
+          "containerPath": "/var/log/nginx",
+          "sourceVolume": "task-wise-dev-web-vlm"
+        }
+      ],
+      "workingDirectory": null,
+      "secrets": null,
+      "dockerSecurityOptions": null,
+      "memory": null,
+      "memoryReservation": 1024,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "727922501631.dkr.ecr.ap-northeast-1.amazonaws.com/ecr-wise-dev-web-log",
+      "startTimeout": null,
+      "firelensConfiguration": null,
+      "dependsOn": null,
+      "disableNetworking": null,
+      "interactive": null,
+      "healthCheck": null,
+      "essential": true,
+      "links": null,
+      "hostname": null,
+      "extraHosts": null,
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": null,
+      "dockerLabels": null,
+      "systemControls": null,
+      "privileged": null,
+      "name": "container-wise-dev-web-frontend-log"
+    }
+  ],
+  "placementConstraints": [],
+  "memory": "4096",
+  "taskRoleArn": "arn:aws:iam::727922501631:role/iam-rol-ecs-wise-dev",
+  "compatibilities": [
+    "EC2",
+    "FARGATE"
+  ],
+  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-1:727922501631:task-definition/task-wise-dev-web-nginx-frontend:5",
+  "family": "task-wise-dev-web-nginx-frontend",
+  "requiresAttributes": [
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.ecr-auth"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.secrets.asm.environment-variables"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.task-iam-role"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.execution-role-ecr-pull"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.task-eni"
+    }
+  ],
+  "pidMode": null,
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "cpu": "2048",
+  "revision": 5,
+  "status": "ACTIVE",
+  "inferenceAccelerators": null,
+  "proxyConfiguration": null,
+  "volumes": [
+    {
+      "fsxWindowsFileServerVolumeConfiguration": null,
+      "efsVolumeConfiguration": null,
+      "name": "task-wise-dev-web-vlm",
+      "host": {
+        "sourcePath": null
+      },
+      "dockerVolumeConfiguration": null
+    }
+  ]
+}
