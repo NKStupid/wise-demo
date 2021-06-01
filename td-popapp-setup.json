@@ -12,7 +12,7 @@
           "logDriver": "awslogs",
           "options": {
             "awslogs-group": "/ecs/microservice-demo",
-            "awslogs-region": "eu-central-1",
+            "awslogs-region": "ap-northeast-1",
             "awslogs-stream-prefix": "ecs"
           }
         },
@@ -38,7 +38,7 @@
           "logDriver": "awslogs",
           "options": {
             "awslogs-group": "/ecs/microservice-demo",
-            "awslogs-region": "eu-central-1",
+            "awslogs-region": "ap-northeast-1",
             "awslogs-stream-prefix": "pop/xray"
           }
         },
