@@ -1,29 +1,57 @@
 {
-  "taskRoleArn": "arn:aws:iam::727922501631:role/iam-rol-ecs-wise-dev",
+  "family": "td-popapp",
+  "requiresCompatibilities": [
+      "FARGATE"
+  ],
+  "networkMode": "awsvpc",
   "executionRoleArn": "arn:aws:iam::727922501631:role/iam-rol-ecs-wise-dev",
+  "taskRoleArn": "arn:aws:iam::727922501631:role/iam-rol-ecs-wise-dev",
   "containerDefinitions": [
       {
-        "environment": [
-          {
-              "name": "PORT",
-              "value": "80"
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/microservice-demo",
+            "awslogs-region": "eu-central-1",
+            "awslogs-stream-prefix": "ecs"
           }
-        ],
-        "memory": 128,
-        "image": "gkoenig/popapp:latest",
-        "essential": true,
+        },
         "portMappings": [
               {
                   "protocol": "tcp",
                   "containerPort": 80
               }
+          ],
+          "environment": [
+              {
+                  "name": "PORT",
+                  "value": "80"
+              }
+          ],
+          "memory": 128,
+          "image": "gkoenig/popapp:latest",
+          "essential": true,
+          "name": "popapp"
+      },
+      {
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/microservice-demo",
+            "awslogs-region": "eu-central-1",
+            "awslogs-stream-prefix": "pop/xray"
+          }
+        },
+        "portMappings": [
+          {
+            "protocol": "udp",
+            "containerPort": 2000
+          }
         ],
-        "name": "popapp"
+        "cpu": 32,
+        "memoryReservation": 256,
+        "image": "amazon/aws-xray-daemon",        
+        "name": "xray-daemon"
       }
-  ],
-  "family": "td-popapp",
-  "requiresCompatibilities": [
-      "FARGATE"
-  ],
-  "networkMode": "awsvpc"
+  ]
 }
