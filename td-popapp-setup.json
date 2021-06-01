@@ -4,6 +4,7 @@
       "FARGATE"
   ],
   "cpu": "1024",
+  "memory": "4096",
   "networkMode": "awsvpc",
   "executionRoleArn": "arn:aws:iam::727922501631:role/iam-rol-ecs-wise-dev",
   "taskRoleArn": "arn:aws:iam::727922501631:role/iam-rol-ecs-wise-dev",
