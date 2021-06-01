@@ -1,12 +1,12 @@
 {
-  "taskRoleArn": "arn:aws:iam::<<your-account-id>>:role/ecsTaskRole",
-  "executionRoleArn": "arn:aws:iam::<<your-account-id>>:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::727922501631:role/iam-rol-ecs-wise-dev",
+  "executionRoleArn": "arn:aws:iam::727922501631:role/iam-rol-ecs-wise-dev",
   "containerDefinitions": [
       {
         "environment": [
           {
               "name": "PORT",
-              "value": "9002"
+              "value": "80"
           }
         ],
         "memory": 128,
@@ -15,7 +15,7 @@
         "portMappings": [
               {
                   "protocol": "tcp",
-                  "containerPort": 9002
+                  "containerPort": 80
               }
         ],
         "name": "popapp"
