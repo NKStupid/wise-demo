@@ -1,0 +1,205 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: VPC and subnets as base for an ECS cluster
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: transit-vpc
+
+Mappings:
+  SubnetConfig:
+    DEV-VPC:
+      CIDR: '10.1.0.0/16'
+    DEV-PublicOne:
+      CIDR: '10.1.1.0/24'
+    QA-VPC:
+      CIDR: '10.2.0.0/16'
+    QA-PublicOne:
+      CIDR: '10.2.1.0/24'
+    SHRD-VPC:
+      CIDR: '10.3.0.0/16'
+    SHRD-PublicOne:
+      CIDR: '10.3.1.0/24'
+    
+
+Resources:
+  DEVVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      CidrBlock: !FindInMap ['SubnetConfig', 'DEV-VPC', 'CIDR']
+      Tags:
+       - Key: Name
+         Value: dev-vpc
+
+  DEVPublicSubnetOne:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+         Fn::Select:
+         - 0
+         - Fn::GetAZs: {Ref: 'AWS::Region'}
+      VpcId: !Ref 'DEVVPC'
+      CidrBlock: !FindInMap ['SubnetConfig', 'DEV-PublicOne', 'CIDR']
+      MapPublicIpOnLaunch: true
+      Tags:
+       - Key: Name
+         Value: dev-public-subnet
+ 
+  DEVInternetGateway:
+    Type: AWS::EC2::InternetGateway
+  DEVGatewayAttachement:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref 'DEVVPC'
+      InternetGatewayId: !Ref 'DEVInternetGateway'
+  DEVPublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref 'DEVVPC'
+  DEVPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: DEVGatewayAttachement
+    Properties:
+      RouteTableId: !Ref 'DEVPublicRouteTable'
+      DestinationCidrBlock: '0.0.0.0/0'
+      GatewayId: !Ref 'DEVInternetGateway'
+  DEVPublicSubnetOneRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref DEVPublicSubnetOne
+      RouteTableId: !Ref DEVPublicRouteTable
+ 
+
+  QAVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      CidrBlock: !FindInMap ['SubnetConfig', 'QA-VPC', 'CIDR']
+      Tags:
+       - Key: Name
+         Value: qa-vpc
+
+  QAPublicSubnetOne:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+         Fn::Select:
+         - 0
+         - Fn::GetAZs: {Ref: 'AWS::Region'}
+      VpcId: !Ref 'QAVPC'
+      CidrBlock: !FindInMap ['SubnetConfig', 'QA-PublicOne', 'CIDR']
+      MapPublicIpOnLaunch: true
+      Tags:
+       - Key: Name
+         Value: qa-public-subnet
+ 
+  QAInternetGateway:
+    Type: AWS::EC2::InternetGateway
+  QAGatewayAttachement:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref 'QAVPC'
+      InternetGatewayId: !Ref 'QAInternetGateway'
+  QAPublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref 'QAVPC'
+  QAPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: QAGatewayAttachement
+    Properties:
+      RouteTableId: !Ref 'QAPublicRouteTable'
+      DestinationCidrBlock: '0.0.0.0/0'
+      GatewayId: !Ref 'QAInternetGateway'
+  QAPublicSubnetOneRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref QAPublicSubnetOne
+      RouteTableId: !Ref QAPublicRouteTable
+  
+
+  SHRDVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      CidrBlock: !FindInMap ['SubnetConfig', 'SHRD-VPC', 'CIDR']
+      Tags:
+       - Key: Name
+         Value: shrd-vpc
+
+  SHRDPublicSubnetOne:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+         Fn::Select:
+         - 0
+         - Fn::GetAZs: {Ref: 'AWS::Region'}
+      VpcId: !Ref 'SHRDVPC'
+      CidrBlock: !FindInMap ['SubnetConfig', 'SHRD-PublicOne', 'CIDR']
+      MapPublicIpOnLaunch: true
+      Tags:
+       - Key: Name
+         Value: shrd-public-subnet
+ 
+  SHRDInternetGateway:
+    Type: AWS::EC2::InternetGateway
+  SHRDGatewayAttachement:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref 'SHRDVPC'
+      InternetGatewayId: !Ref 'SHRDInternetGateway'
+  SHRDPublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref 'SHRDVPC'
+  SHRDPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: SHRDGatewayAttachement
+    Properties:
+      RouteTableId: !Ref 'SHRDPublicRouteTable'
+      DestinationCidrBlock: '0.0.0.0/0'
+      GatewayId: !Ref 'SHRDInternetGateway'
+  SHRDPublicSubnetOneRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SHRDPublicSubnetOne
+      RouteTableId: !Ref SHRDPublicRouteTable
+    
+Outputs:
+  DEVVpcId:
+    Description: The ID of the DEV-VPC that this stack is deployed in
+    Value: !Ref 'DEVVPC'
+    Export:
+      Name: !Sub ${EnvironmentName}:DEVVpcId
+  DEVPublicSubnetOne:
+    Description: DEV-Public subnet one
+    Value: !Ref 'DEVPublicSubnetOne'
+    Export:
+      Name: !Sub ${EnvironmentName}:DEVPublicSubnetOne
+ 
+  QAVpcId:
+    Description: The ID of the QA-VPC that this stack is deployed in
+    Value: !Ref 'QAVPC'
+    Export:
+      Name: !Sub ${EnvironmentName}:QAVpcId
+  QAPublicSubnetOne:
+    Description: QA-Public subnet one
+    Value: !Ref 'QAPublicSubnetOne'
+    Export:
+      Name: !Sub ${EnvironmentName}:QAPublicSubnetOne
+ 
+ 
+  SHRDVpcId:
+    Description: The ID of the SHRD-VPC that this stack is deployed in
+    Value: !Ref 'SHRDVPC'
+    Export:
+      Name: !Sub ${EnvironmentName}:SHRDVpcId
+  SHRDPublicSubnetOne:
+    Description: SHRD-Public subnet one
+    Value: !Ref 'SHRDPublicSubnetOne'
+    Export:
+      Name: !Sub ${EnvironmentName}:SHRDPublicSubnetOne
+ 
