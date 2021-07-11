@@ -1,1 +1,1 @@
-echo $HTTP_PROX
+echo $HTTPS_PROXY
