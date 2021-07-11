@@ -1,0 +1,1 @@
+echo $HTTP_PROX
