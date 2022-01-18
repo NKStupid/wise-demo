@@ -1,6 +1,6 @@
 #!/bin/sh
-
-yum install -y wget
+apt-get update
+apt install -y wget
 echo Hello World	
 echo ----------Begin curl through Private Link----------
 wget https://www.google.com
